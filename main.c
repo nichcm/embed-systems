@@ -51,25 +51,15 @@ int main(void){
 
 	while(1){
 		teclaA15 = GPIOA->IDR & (1<<15);
+		check = get_adc();
 
-		if(!teclaA15){
-			GPIOB->ODR ^= (1<<12);
+		if(!teclaA15 || check>800){
+			GPIOB->ODR |= (1<<12);
+			SysTick->LOAD = 9999;
 			delay(500);
 			/*for(int i=0;i<500;i++){
 				delay_1ms();
 			}*/
 		}
-
-		check = get_adc();
-
-		if(check>800){
-			GPIOB->ODR |= (1<<12);
-			SysTick->LOAD = 9999;
-
-		}
-
-
-
 	}
-
 }
